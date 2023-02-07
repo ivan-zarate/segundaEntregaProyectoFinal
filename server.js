@@ -4,14 +4,14 @@ const app = require("express")();
 const server = require("http").Server(app);
 const io = require("socket.io")(server);
 const connection = require('./src/connections/connectionmongodb');
-//const connectionFirebase= require('./src/connections/connectionFirebase');
 
 
-//const productMySql = require("./src/routes/productsMySql");
+const productMySql = require("./src/routes/productsRoutes/productsMySql");
 const productsInFb = require("./src/routes/productsRoutes/productsFirebase");
+const cartsInFb = require("./src/routes/cartsRoutes/cartsFirebase");
 const productsInMongo = require("./src/routes/productsRoutes/productsMongo");
 const cartsInMongo=require("./src/routes/cartsRoutes/cartsMongo");
-// const chat = require("./Routes/messages");
+
 
 app.use(cors());
 app.use(express.json());
@@ -27,8 +27,6 @@ app.use((req, res, next) => {
 //app en MariaDB
 
 //app.use('/api', productMySql);
-// app.use('/api', cartRouter);
-// app.use('/api', chat);
 
 //app en MongoDB
 
@@ -37,7 +35,7 @@ app.use((req, res, next) => {
 
 //app en Firebase
 app.use('/api', productsInFb);
-
+app.use('/api', cartsInFb);
 
 app.use(express.static("public"));
 
@@ -53,7 +51,6 @@ io.on('connection', socket => {
 });
 
 connection().then(()=> console.log('Connected to Mongo')).catch(()=> console.log('An error occurred trying to connect to mongo'));
-//connectionFirebase().then(()=> console.log('Connected to Firebase')).catch(()=> console.log('An error occurred trying to connect to Firebase'));
 
 const srv = server.listen(port, () => {
   console.log(`Escuchando app en el puerto ${srv.address().port}`);

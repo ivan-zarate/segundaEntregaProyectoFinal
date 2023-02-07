@@ -27,8 +27,8 @@ productsInFb.get("/products", async (req, res) => {
 
 productsInFb.post("/products", validateBody, validateUser, async (req, res) => {
     try {
-        const createProduct = await productosFb.add(req.body);
-        return res.status(200).send("Producto cargado exitosamente", createProduct);
+        await productosFb.add(req.body);
+        return res.status(200).send("Producto cargado exitosamente");
     } catch (error) {
         return res.status(400).send({
             error: `An error occurred trying to read products ${error.message}`,
@@ -52,7 +52,7 @@ productsInFb.delete("/products/:id", validateUser, async (req, res) => {
         await productosFb.doc(req.params.id).delete();
         return res.status(200).send("Producto eliminado correctamente");
     } catch (error) {
-        return res.status(500).send({
+        return res.status(400).send({
             error: `An error occurred trying to read products ${error.message}`,
         });
     }
