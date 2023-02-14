@@ -5,13 +5,20 @@ let socket = io.connect(baseUrl, {
 });
 
 socket.on('mensajes', function (msjs) {
-    document.querySelector('#messages').innerHTML = msjs.map(msj => `<strong>Usuario: ${msj.mensaje.email}</strong> -> Mensaje: ${msj.mensaje.texto}`).join('<br>')
+    document.querySelector('#messages').innerHTML = msjs.map(msj => `<strong>Usuario: ${msj.mensaje.author.alias}</strong> -> Mensaje: ${msj.mensaje.text}`).join('<br>')
 });
 
 const addMessage = () => {
     const data = {
-        email: document.getElementById("email").value,
-        texto: document.getElementById("texto").value
+        author:{
+            id: document.getElementById("email").value,
+            name:document.getElementById("name").value,
+            lastname:document.getElementById("lastname").value,
+            age:document.getElementById("age").value,
+            alias:document.getElementById("alias").value,
+            avatar:document.getElementById("avatar").value,
+        },
+        text: document.getElementById("texto").value
     }
     socket.emit('mensaje', data);
     fetch(baseUrl + '/api/messages/', {

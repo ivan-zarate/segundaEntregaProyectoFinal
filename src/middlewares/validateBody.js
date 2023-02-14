@@ -1,5 +1,5 @@
 const validateBody = (req, res, next) => {
-    if (req.body.name || req.body.email) {
+    if (req.body.name || req.body.text) {
       req.isCorrect = true;
       return next();
     }

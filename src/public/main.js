@@ -13,7 +13,7 @@ const getProducts = () => {
 const printProducts = () => {
     let container = document.getElementById('products');
     container.innerHTML = "";
-    productos.product.forEach(producto => {
+    productos.forEach(producto => {
         container.innerHTML += mapProducts(producto);
     })
 }
